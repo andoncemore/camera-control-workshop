@@ -1,6 +1,6 @@
 # Camera Control with **Python**
 
-### Pros and Cons
+## Pros and Cons
 Here are some reasons why you might use python to switch between cameras:
 
 * You are using a raspberry pi - python is your best option when using a raspberry pi since running Unity or OBS would be quite challenging, and raspberry pi isn't as performant for displaying websites, so p5js is a worse option
@@ -14,7 +14,7 @@ And here are some reasons why you might not want to use python:
 
 ---
 
-### Installation
+## Installation
 
  The first step is to install a few of the necessary packages to be able to grab your webcam feed, and to manipulate those video feeds:
 
@@ -31,7 +31,7 @@ pip3 install Pillow
 ```
 ---
 
-### Import Libraries
+## Import Libraries
 
 ```python
 import numpy as np
@@ -40,7 +40,7 @@ from PIL import ImageDraw, Image
 
 ```
 
-### Basic Webcam Example
+## Basic Webcam Example
 
 
 ```python
@@ -67,7 +67,7 @@ The first line `cap = cv2.VideoCapture(0)` creates a variable `cap` that stores 
 Finally, to finish off closing the window, we release the VideoCapture object and then use `cv2.destroyAllWindows()` to close all open OpenCV windows.
 
 
-### Multiple Cameras
+## Multiple Cameras
 
 Using multiple cameras is pretty simple. Just create a new VideoCapture object for each camera you would like to use.
 
@@ -107,7 +107,7 @@ cv2.destroyAllWindows()
 ```
 Make sure to release all the cameras you've created before closing.
 
-### Frame/Image Manipulation
+## Frame/Image Manipulation
 
 To show the video feed to our screens, we are grabbing static images and displaying it to a window. That means that you can modify the image in any way you want before displaying it to the screen.
 
@@ -141,7 +141,7 @@ cv2_im_rgb = cv2.cvtColor(frame,cv2.COLOR_BGR2RGB)
 pil_im = Image.fromarray(cv2_im_rgb)
 ```
 
-##### Drawing Shapes and Text
+### Drawing Shapes and Text
 
 Once you have the PIL image, you can pretty easily do some basic image operations, which you can find more details about in the [documentation](https://pillow.readthedocs.io/en/3.1.x/reference/ImageDraw.html).
 
@@ -160,7 +160,7 @@ font = ImageFont.truetype("SpaceMono-Regular.ttf",24)
 draw.text((100,100),"TEXT",font=font,fill=(0,0,255))
 
 ```
-##### Combining static graphics
+### Combining static graphics
 Another useful thing to do with PIL is to "[paste](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.paste)" images together. You can create static graphics and overlay it ontop of your webcam feed.
 
 ```python
@@ -172,7 +172,7 @@ pil_im.paste(graphic,(60,0))
 ```
 
 
-### Fullscreen Window
+## Fullscreen Window
 
 To get the window to take up the whole screen use the following code before the line `cv2.imshow('frame',frame)`.
 
@@ -185,7 +185,7 @@ Make sure to be consistent with your frame name (in this case it's "frame").
 
  *Note that while this makes the window take up the full screen, if the image is not big enough, it will not be scaled to fit the window. You'll have to resize your frames itself if you want it to take up the whole screen*
 
- ### Basic Multi-Threading
+ ## Basic Multi-Threading
 
  So far, the only way we've talked about triggering a camera change is by using `cv2.waitKey(1)`, which constrains you to using keyboard keys. Using something like the Makey-Makey, which acts like an external keyboard, can allow you to be creative under those constraints.
 
@@ -212,3 +212,23 @@ while True:
 
 ```
 In the first line of the threading code we set `target=main`, which is a reference to the function that we want to run in a seperate thread. For more detailed information on threads in python, take a look at this [guide](https://realpython.com/intro-to-python-threading/).
+
+
+## Simulating Keystrokes with Python
+Here is a [guide](https://nitratine.net/blog/post/simulate-keypresses-in-python/) for more detailed code on this topic
+
+An easy way to integrate some more complex logic into your opencv controlled webcams or even your OBS based camera control system is to use python to simulate keystrokes. For example, you could setup Hotkeys in OBS and then trigger those Hotkeys from a python script automatically.
+
+First install the library pynput `pip3 install pynput`
+
+Basic usage:
+
+```python
+from pynput.keyboard import Key, Controller
+
+keyboard = Controller()
+keyboard.press('q')
+keyboard.release('q')
+
+```
+Now, you can setup simple conditions in python to control scenes you've setup in OBS or just trigger scene changes in another python script you're running
